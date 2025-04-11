@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Koturn.VRChat.Log;
 using Koturn.VRChat.Log.Enums;
 
@@ -33,17 +35,12 @@ namespace VRCLogTail
         /// <summary>
         /// <see cref="VRCBaseLogParser"/> for <see cref="TailLogWatcher"/>.
         /// </summary>
-        private sealed class TailLogParser : VRCBaseLogParser
+        /// <remarks>
+        /// Primary ctor: Open specified file.
+        /// </remarks>
+        /// <param name="filePath">Log file path to open.</param>
+        private sealed class TailLogParser(string filePath) : VRCBaseLogParser(filePath)
         {
-            /// <summary>
-            /// Open specified file.
-            /// </summary>
-            /// <param name="filePath">Log file path to open.</param>
-            public TailLogParser(string filePath)
-                : base(filePath)
-            {
-            }
-
             /// <summary>
             /// Load one log item and output to stdout.
             /// </summary>
