@@ -1,5 +1,7 @@
 using System;
+#if NETSTANDARD2_1 || NETCOREAPP2_1_OR_GREATER
 using System.Runtime.CompilerServices;
+#endif  // NETSTANDARD2_1 || NETCOREAPP2_1_OR_GREATER
 
 
 namespace VRCLogTail
@@ -16,6 +18,7 @@ namespace VRCLogTail
         /// <returns>Datetime string.</returns>
         public static string FormatDateTime(DateTime dateTime)
         {
+#if NETSTANDARD2_1 || NETCOREAPP2_1_OR_GREATER
             return string.Create(19, dateTime, (chars, dt) =>
             {
                 WriteDigits(chars, 0, 4, dt.Year);
@@ -30,8 +33,12 @@ namespace VRCLogTail
                 chars[16] = ':';
                 Write2Chars(chars, 17, dt.Second);
             });
+#else
+            return dateTime.ToString("yyyy-MM-dd HH:mm:ss");
+#endif  // NETSTANDARD2_1 || NETCOREAPP2_1_OR_GREATER
         }
 
+#if NETSTANDARD2_1 || NETCOREAPP2_1_OR_GREATER
         /// <summary>
         /// Write N-digits to specified <see cref="Span{T}"/>
         /// </summary>
@@ -62,5 +69,6 @@ namespace VRCLogTail
             chars[offset] = (char)(value + '0');
             chars[offset + 1] = (char)(rem + '0');
         }
+#endif  // NETSTANDARD2_1 || NETCOREAPP2_1_OR_GREATER
     }
 }
