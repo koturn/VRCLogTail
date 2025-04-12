@@ -15,17 +15,6 @@ namespace VRCLogTail
     public sealed class TailLogWatcher : VRCBaseLogWatcher
     {
         /// <summary>
-        /// Console colors.
-        /// </summary>
-        private static readonly ConsoleColor[] _consoleColor = [
-            ConsoleColor.Gray,
-            ConsoleColor.Gray,
-            ConsoleColor.Yellow,
-            ConsoleColor.Magenta,
-            ConsoleColor.Red
-        ];
-
-        /// <summary>
         /// Create an instance of <see cref="VRCBaseLogParser"/>.
         /// </summary>
         /// <param name="filePath">File path to log file.</param>
@@ -44,6 +33,17 @@ namespace VRCLogTail
         /// <param name="filePath">Log file path to open.</param>
         private sealed class TailLogParser(string filePath) : VRCBaseLogParser(filePath)
         {
+            /// <summary>
+            /// Console colors.
+            /// </summary>
+            private static readonly ConsoleColor[] _consoleColor = [
+                ConsoleColor.Gray,
+                ConsoleColor.Gray,
+                ConsoleColor.Yellow,
+                ConsoleColor.Magenta,
+                ConsoleColor.Red
+            ];
+
             /// <summary>
             /// Load one log item and output to stdout.
             /// </summary>
