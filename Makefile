@@ -28,10 +28,10 @@ deploy$(SINGLE_SUFFIX): deploy-$(TARGET_NET9)$(SINGLE_SUFFIX)
 deploy$(AOT_SUFFIX): deploy-$(TARGET_NET9)$(AOT_SUFFIX)
 
 deploy-$(TARGET_NET9):
-	-dotnet publish -c $(BUILD_CONFIG) -r win-x64 \
+	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET9) -r win-x64 \
 		-p:TargetFramework=$(TARGET_NET9) \
 		-p:PublishDir=..\$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9) \
-		$(SOLUTION_FILE)
+		$(MAIN_PROJECT_FILE)
 	-$(RM) $(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)\*.pdb \
 		$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)\*.xml \
 		$(ARTIFACTS_BASENAME)-$(TARGET_NET9).zip 2>NUL
@@ -40,13 +40,13 @@ deploy-$(TARGET_NET9):
 	cd $(MAKEDIR)
 
 deploy-$(TARGET_NET9)$(SINGLE_SUFFIX):
-	-dotnet publish -c $(BUILD_CONFIG) -r win-x64 \
+	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET9) -r win-x64 \
 		-p:TargetFramework=$(TARGET_NET9) \
 		-p:PublishDir=..\$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)$(SINGLE_SUFFIX) \
 		-p:PublishSingleFile=true \
 		-p:PublishReadyToRun=true \
 		--self-contained=true \
-		$(SOLUTION_FILE)
+		$(MAIN_PROJECT_FILE)
 	-$(RM) $(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)$(SINGLE_SUFFIX)\*.pdb \
 		$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)$(SINGLE_SUFFIX)\*.xml \
 		$(ARTIFACTS_BASENAME)-$(TARGET_NET9)$(SINGLE_SUFFIX).zip 2>NUL
@@ -55,12 +55,12 @@ deploy-$(TARGET_NET9)$(SINGLE_SUFFIX):
 	cd $(MAKEDIR)
 
 deploy-$(TARGET_NET9)$(AOT_SUFFIX):
-	-dotnet publish -c $(BUILD_CONFIG) \
+	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET9) \
 		-p:TargetFramework=$(TARGET_NET9) \
 		-p:PublishDir=..\$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)$(AOT_SUFFIX) \
 		-p:PublishAot=true \
 		-p:IsAotCompatible=true \
-		$(SOLUTION_FILE)
+		$(MAIN_PROJECT_FILE)
 	-$(RM) $(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)$(AOT_SUFFIX)\*.pdb \
 		$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)$(AOT_SUFFIX)\*.xml \
 		$(ARTIFACTS_BASENAME)-$(TARGET_NET9)$(AOT_SUFFIX).zip 2>NUL
