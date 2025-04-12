@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Koturn.VRChat.Log;
 using Koturn.VRChat.Log.Enums;
 
@@ -53,11 +54,11 @@ namespace VRCLogTail
                 Console.ForegroundColor = _consoleColor[(int)level];
 
                 var writer = Console.Out;
-                writer.WriteLine($@"[{DateTimeUtil.FormatDateTime(logAt)}][{level.GetName()}] {logLines[0]}");
-                var count = logLines.Count;
-                for (int i = 1; i < count; i++)
+                var logLineSpan = CollectionsMarshal.AsSpan(logLines);
+                writer.WriteLine($@"[{DateTimeUtil.FormatDateTime(logAt)}][{level.GetName()}] {logLineSpan[0]}");
+                foreach (var line in logLineSpan.Slice(1))
                 {
-                    writer.WriteLine(logLines[i]);
+                    writer.WriteLine(line);
                 }
                 writer.Flush();
 
