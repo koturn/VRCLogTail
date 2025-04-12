@@ -29,9 +29,10 @@ deploy$(SINGLE_SUFFIX): deploy-$(TARGET_NET9)$(SINGLE_SUFFIX)
 deploy$(AOT_SUFFIX): deploy-$(TARGET_NET9)$(AOT_SUFFIX)
 
 deploy-$(TARGET_NET9):
-	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET9) -r win-x64 \
-		-p:TargetFramework=$(TARGET_NET9) \
+	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET9) -r win-x64 --no-self-contained \
 		-p:PublishDir=..\$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9) \
+		-p:PublishTrimmed=false \
+		-p:PublishAot=false \
 		$(MAIN_PROJECT_FILE)
 	-$(RM) $(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)\*.pdb \
 		$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)\*.xml \
@@ -41,12 +42,11 @@ deploy-$(TARGET_NET9):
 	cd $(MAKEDIR)
 
 deploy-$(TARGET_NET9)$(SINGLE_SUFFIX):
-	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET9) -r win-x64 \
-		-p:TargetFramework=$(TARGET_NET9) \
+	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET9) -r win-x64 --self-contained \
 		-p:PublishDir=..\$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)$(SINGLE_SUFFIX) \
+		-p:PublishAot=false \
 		-p:PublishSingleFile=true \
 		-p:PublishReadyToRun=true \
-		--self-contained=true \
 		$(MAIN_PROJECT_FILE)
 	-$(RM) $(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)$(SINGLE_SUFFIX)\*.pdb \
 		$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)$(SINGLE_SUFFIX)\*.xml \
@@ -56,11 +56,8 @@ deploy-$(TARGET_NET9)$(SINGLE_SUFFIX):
 	cd $(MAKEDIR)
 
 deploy-$(TARGET_NET9)$(AOT_SUFFIX):
-	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET9) \
-		-p:TargetFramework=$(TARGET_NET9) \
+	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET9) -r win-x64 --self-contained \
 		-p:PublishDir=..\$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)$(AOT_SUFFIX) \
-		-p:PublishAot=true \
-		-p:IsAotCompatible=true \
 		$(MAIN_PROJECT_FILE)
 	-$(RM) $(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)$(AOT_SUFFIX)\*.pdb \
 		$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)$(AOT_SUFFIX)\*.xml \
@@ -70,9 +67,9 @@ deploy-$(TARGET_NET9)$(AOT_SUFFIX):
 	cd $(MAKEDIR)
 
 deploy-$(TARGET_NFW481):
-	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NFW481) \
-		-p:TargetFramework=$(TARGET_NFW481) \
+	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NFW481) --no-self-contained \
 		-p:PublishDir=..\$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NFW481) \
+		-p:PublishTrimmed=false \
 		-p:PublishAot=false \
 		$(MAIN_PROJECT_FILE)
 	-$(RM) $(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NFW481)\*.pdb \
