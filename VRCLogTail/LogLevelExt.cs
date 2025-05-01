@@ -6,12 +6,12 @@ using Koturn.VRChat.Log.Enums;
 namespace VRCLogTail
 {
     /// <summary>
-    /// Provides extension methods for <see cref="Koturn.VRChat.Log.Enums.LogLevel"/>.
+    /// Provides extension methods for <see cref="VRCLogLevel"/>.
     /// </summary>
     public static class LogLevelExt
     {
         /// <summary>
-        /// <see cref="string"/> represents of <see cref="Koturn.VRChat.Log.Enums.LogLevel"/>.
+        /// <see cref="string"/> represents of <see cref="VRCLogLevel"/>.
         /// </summary>
         private static readonly string[] _names = [
             "Other",
@@ -27,7 +27,7 @@ namespace VRCLogTail
         /// </summary>
         /// <param name="level">Log level.</param>
         /// <returns><see cref="string"/> represent of <paramref name="level"/></returns>
-        public static string GetName(this LogLevel level)
+        public static string GetName(this VRCLogLevel level)
         {
             var index = (int)level;
             if (index <= 0 || index >= _names.Length)

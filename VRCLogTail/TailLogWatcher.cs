@@ -51,7 +51,7 @@ namespace VRCLogTail
             /// <param name="level">Log level.</param>
             /// <param name="logLines">Log lines.</param>
             /// <returns>True if any of the log parsing defined in this class succeeds, otherwise false.</returns>
-            protected override bool OnLogDetected(DateTime logAt, LogLevel level, List<string> logLines)
+            protected override bool OnLogDetected(DateTime logAt, VRCLogLevel level, List<string> logLines)
             {
                 Console.ForegroundColor = _consoleColor[(int)level];
 
