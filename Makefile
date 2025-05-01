@@ -17,7 +17,7 @@ RMDIR = rmdir /S /Q
 all: build
 
 build:
-	dotnet build -c $(BUILD_CONFIG) $(SOLUTION_FILE)
+	dotnet build -c $(BUILD_CONFIG) $(MAIN_PROJECT_FILE)
 
 restore:
 	dotnet restore $(SOLUTION_FILE)
@@ -29,7 +29,7 @@ deploy$(SINGLE_SUFFIX): deploy-$(TARGET_NET9)$(SINGLE_SUFFIX)
 deploy$(AOT_SUFFIX): deploy-$(TARGET_NET9)$(AOT_SUFFIX)
 
 deploy-$(TARGET_NET9):
-	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET9) -r win-x64 --no-self-contained \
+	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET9) --no-self-contained \
 		-p:PublishDir=..\$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9) \
 		-p:PublishTrimmed=false \
 		-p:PublishAot=false \
@@ -42,7 +42,7 @@ deploy-$(TARGET_NET9):
 	cd $(MAKEDIR)
 
 deploy-$(TARGET_NET9)$(SINGLE_SUFFIX):
-	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET9) -r win-x64 --self-contained \
+	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET9) --self-contained \
 		-p:PublishDir=..\$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)$(SINGLE_SUFFIX) \
 		-p:PublishAot=false \
 		-p:PublishSingleFile=true \
@@ -56,7 +56,7 @@ deploy-$(TARGET_NET9)$(SINGLE_SUFFIX):
 	cd $(MAKEDIR)
 
 deploy-$(TARGET_NET9)$(AOT_SUFFIX):
-	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET9) -r win-x64 --self-contained \
+	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET9) --self-contained \
 		-p:PublishDir=..\$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)$(AOT_SUFFIX) \
 		$(MAIN_PROJECT_FILE)
 	-$(RM) $(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET9)$(AOT_SUFFIX)\*.pdb \
