@@ -6,6 +6,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>13</LangVersion>
     <Nullable>enable</Nullable>
+    <WarningLevel>8</WarningLevel>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PublishTrimmed Condition="'$(TargetFramework)'!='net481'">True</PublishTrimmed>
     <PublishAot Condition="'$(TargetFramework)'!='net481'">True</PublishAot>
@@ -22,16 +23,19 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <WarningLevel>8</WarningLevel>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <WarningLevel>8</WarningLevel>
-  </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Koturn.VRChat.Log\Koturn.VRChat.Log\Koturn.VRChat.Log.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
