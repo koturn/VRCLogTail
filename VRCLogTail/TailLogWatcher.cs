@@ -66,7 +66,7 @@ namespace VRCLogTail
 #else
                 writer.WriteLine($"[{DateTimeUtil.FormatDateTime(logAt)}][{level.GetName()}] {logLines[0]}");
                 var count = logLines.Count;
-                for (int i = 0; i < count; i++)
+                for (int i = 1; i < count; i++)
                 {
                     writer.WriteLine(logLines[i]);
                 }
