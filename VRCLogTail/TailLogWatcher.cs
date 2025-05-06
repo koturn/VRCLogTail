@@ -5,6 +5,9 @@ using System.Runtime.InteropServices;
 #endif  // NET5_0_OR_GREATER
 using Koturn.VRChat.Log;
 using Koturn.VRChat.Log.Enums;
+#if !NET5_0_OR_GREATER
+using VRCLogTail.Internals;
+#endif  // !NET5_0_OR_GREATER
 
 
 namespace VRCLogTail
@@ -56,21 +59,26 @@ namespace VRCLogTail
                 Console.ForegroundColor = _consoleColor[(int)level];
 
                 var writer = Console.Out;
+#if NETCOREAPP2_1_OR_GREATER
 #if NET5_0_OR_GREATER
                 var logLineSpan = CollectionsMarshal.AsSpan(logLines);
+#else
+                var logLineSpan = ListHelper.AsSpan(logLines);
+#endif  // NET5_0_OR_GREATER
                 writer.WriteLine($@"[{DateTimeUtil.FormatDateTime(logAt)}][{level.GetName()}] {logLineSpan[0]}");
                 foreach (var line in logLineSpan.Slice(1))
                 {
                     writer.WriteLine(line);
                 }
 #else
-                writer.WriteLine($"[{DateTimeUtil.FormatDateTime(logAt)}][{level.GetName()}] {logLines[0]}");
+                var logLineArray = ListHelper.GetArray(logLines);
+                writer.WriteLine($"[{DateTimeUtil.FormatDateTime(logAt)}][{level.GetName()}] {logLineArray[0]}");
                 var count = logLines.Count;
                 for (int i = 1; i < count; i++)
                 {
-                    writer.WriteLine(logLines[i]);
+                    writer.WriteLine(logLineArray[i]);
                 }
-#endif  // NET5_0_OR_GREATER
+#endif  // NETCOREAPP2_1_OR_GREATER
                 writer.Flush();
 
                 Console.ForegroundColor = ConsoleColor.Gray;
