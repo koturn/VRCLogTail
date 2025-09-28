@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net9.0;net481</TargetFrameworks>
+    <ApplicationIcon>VRCLogTail.ico</ApplicationIcon>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>13</LangVersion>
     <Nullable>enable</Nullable>
@@ -22,6 +23,10 @@
     <PackageTags>Windows;VRChat</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="VRCLogTail.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Koturn.VRChat.Log\Koturn.VRChat.Log\Koturn.VRChat.Log.csproj" />
