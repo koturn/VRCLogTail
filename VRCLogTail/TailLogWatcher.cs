@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 #if NET5_0_OR_GREATER
 using System.Runtime.InteropServices;
 #endif  // NET5_0_OR_GREATER
@@ -36,6 +37,10 @@ namespace VRCLogTail
         /// Log filter bits.
         /// </summary>
         public int FilterBits { get; set; } = DefaultFilterBits;
+        /// <summary>
+        /// Filter regex.
+        /// </summary>
+        public Regex? FilterRegex { get; set; } = null;
 
         /// <summary>
         /// Create an instance of <see cref="VRCBaseLogParser"/>.
@@ -97,6 +102,24 @@ namespace VRCLogTail
 #else
                 var logLineSpan = ListHelper.AsSpan(logLines);
 #endif  // NET5_0_OR_GREATER
+                var regex = _watcher.FilterRegex;
+                if (regex != null)
+                {
+                    var isMatch = false;
+                    foreach (var line in logLineSpan)
+                    {
+                        if (regex.IsMatch(line))
+                        {
+                            isMatch = true;
+                            break;
+                        }
+                    }
+                    if (!isMatch)
+                    {
+                        return true;
+                    }
+                }
+
                 lock (_lock)
                 {
                     Console.ForegroundColor = _consoleColor[(int)level];
@@ -111,6 +134,25 @@ namespace VRCLogTail
 #else
                 var logLineArray = ListHelper.GetArray(logLines);
                 var count = logLines.Count;
+
+                var regex = _watcher.FilterRegex;
+                if (regex != null)
+                {
+                    var isMatch = false;
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (regex.IsMatch(logLineArray[i]))
+                        {
+                            isMatch = true;
+                            break;
+                        }
+                    }
+                    if (!isMatch)
+                    {
+                        return true;
+                    }
+                }
+
                 lock (_lock)
                 {
                     Console.ForegroundColor = _consoleColor[(int)level];
