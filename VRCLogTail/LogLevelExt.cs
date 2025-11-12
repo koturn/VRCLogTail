@@ -30,7 +30,7 @@ namespace VRCLogTail
         public static string GetName(this VRCLogLevel level)
         {
             var index = (int)level;
-            if (index <= 0 || index >= _names.Length)
+            if (index < 0 || index >= _names.Length)
             {
                 ThrowArgumentOutOfRangeException(nameof(level), index, "Enum value is out of range");
             }
