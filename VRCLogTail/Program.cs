@@ -23,7 +23,9 @@ namespace VRCLogTail
 
             using (var logWatcher = new TailLogWatcher())
             {
+                logWatcher.FilterBits = 0;
                 logWatcher.Start();
+                logWatcher.FilterBits = TailLogWatcher.DefaultFilterBits;
                 while (Console.ReadLine() != "exit")
                 {
                     // Do nothing.

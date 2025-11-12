@@ -25,13 +25,26 @@ namespace VRCLogTail
     public sealed class TailLogWatcher : VRCBaseLogWatcher
     {
         /// <summary>
+        /// Default log filter bits.
+        /// </summary>
+        public const int DefaultFilterBits = (1 << (int)VRCLogLevel.Debug)
+            | (1 << (int)VRCLogLevel.Warning)
+            | (1 << (int)VRCLogLevel.Error)
+            | (1 << (int)VRCLogLevel.Exception);
+
+        /// <summary>
+        /// Log filter bits.
+        /// </summary>
+        public int FilterBits { get; set; } = DefaultFilterBits;
+
+        /// <summary>
         /// Create an instance of <see cref="VRCBaseLogParser"/>.
         /// </summary>
         /// <param name="filePath">File path to log file.</param>
         /// <returns>An instance of <see cref="VRCBaseLogParser"/>.</returns>
         protected override VRCBaseLogParser CreateLogParser(string filePath)
         {
-            return new TailLogParser(filePath);
+            return new TailLogParser(this, filePath);
         }
 
         /// <summary>
@@ -40,8 +53,9 @@ namespace VRCLogTail
         /// <remarks>
         /// Primary ctor: Open specified file.
         /// </remarks>
+        /// <param name="watcher"><see cref="TailLogWatcher"/> instance.</param>
         /// <param name="filePath">Log file path to open.</param>
-        private sealed class TailLogParser(string filePath) : VRCBaseLogParser(filePath)
+        private sealed class TailLogParser(TailLogWatcher watcher, string filePath) : VRCBaseLogParser(filePath)
         {
             /// <summary>
             /// Lock object for <see cref="Console.Out"/>.
@@ -59,6 +73,11 @@ namespace VRCLogTail
             ];
 
             /// <summary>
+            /// <see cref="TailLogWatcher"/> instance.
+            /// </summary>
+            private readonly TailLogWatcher _watcher = watcher;
+
+            /// <summary>
             /// Load one log item and output to stdout.
             /// </summary>
             /// <param name="level">Log level.</param>
@@ -66,6 +85,11 @@ namespace VRCLogTail
             /// <returns>True if any of the log parsing defined in this class succeeds, otherwise false.</returns>
             protected override bool OnLogDetected(VRCLogLevel level, List<string> logLines)
             {
+                if ((_watcher.FilterBits & (1 << (int)level)) == 0)
+                {
+                    return true;
+                }
+
                 var writer = Console.Out;
 #if NETCOREAPP2_1_OR_GREATER
 #if NET5_0_OR_GREATER
