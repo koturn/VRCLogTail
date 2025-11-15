@@ -14,11 +14,11 @@ namespace VRCLogTail
         /// <see cref="string"/> represents of <see cref="VRCLogLevel"/>.
         /// </summary>
         private static readonly string[] _names = [
-            "Other",
             "Debug",
             "Warning",
             "Error",
-            "Exception"
+            "Exception",
+            "Other",
         ];
 
 

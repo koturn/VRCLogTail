@@ -71,10 +71,10 @@ namespace VRCLogTail
             /// </summary>
             private static readonly ConsoleColor[] _consoleColor = [
                 ConsoleColor.Gray,
-                ConsoleColor.Gray,
                 ConsoleColor.Yellow,
                 ConsoleColor.Magenta,
-                ConsoleColor.Red
+                ConsoleColor.Red,
+                ConsoleColor.Gray
             ];
 
             /// <summary>
@@ -123,7 +123,7 @@ namespace VRCLogTail
                 lock (_lock)
                 {
                     Console.ForegroundColor = _consoleColor[(int)level];
-                    writer.WriteLine($@"[{DateTimeUtil.FormatDateTime(LogAt)}][{level.GetName()}] {logLineSpan[0]}");
+                    writer.WriteLine($"[{DateTimeUtil.FormatDateTime(LogAt)}][{level.GetName()}] {logLineSpan[0]}");
                     foreach (var line in logLineSpan.Slice(1))
                     {
                         writer.WriteLine(line);
