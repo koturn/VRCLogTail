@@ -17,7 +17,7 @@ build_script:
 
     nmake deploy-net481
 artifacts:
-- path: $(SOLUTION_NAME)-net9.0.zip
-  name: .NET 9 binary
+- path: $(SOLUTION_NAME)-net10.0.zip
+  name: .NET 10 binary
 - path: $(SOLUTION_NAME)-net481.zip
   name: .NET Framework 4.8.1 binary
