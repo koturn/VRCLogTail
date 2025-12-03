@@ -38,6 +38,10 @@ namespace VRCLogTail
         /// </summary>
         public int FilterBits { get; set; } = DefaultFilterBits;
         /// <summary>
+        /// True to show file name
+        /// </summary>
+        public bool ShowFileName { get; set; } = false;
+        /// <summary>
         /// Filter regex.
         /// </summary>
         public Regex? FilterRegex { get; set; } = null;
@@ -120,10 +124,11 @@ namespace VRCLogTail
                     }
                 }
 
+                var fileNamePrefix = _watcher.ShowFileName ? $"[{FileName}]" : "";
                 lock (_lock)
                 {
                     Console.ForegroundColor = _consoleColor[(int)level];
-                    writer.WriteLine($"[{DateTimeUtil.FormatDateTime(LogAt)}][{level.GetName()}] {logLineSpan[0]}");
+                    writer.WriteLine($"{fileNamePrefix}[{DateTimeUtil.FormatDateTime(LogAt)}][{level.GetName()}] {logLineSpan[0]}");
                     foreach (var line in logLineSpan.Slice(1))
                     {
                         writer.WriteLine(line);
@@ -153,10 +158,11 @@ namespace VRCLogTail
                     }
                 }
 
+                var fileNamePrefix = _watcher.ShowFileName ? $"[{FileName}]" : "";
                 lock (_lock)
                 {
                     Console.ForegroundColor = _consoleColor[(int)level];
-                    writer.WriteLine($"[{DateTimeUtil.FormatDateTime(LogAt)}][{level.GetName()}] {logLineArray[0]}");
+                    writer.WriteLine($"{fileNamePrefix}[{DateTimeUtil.FormatDateTime(LogAt)}][{level.GetName()}] {logLineArray[0]}");
                     for (int i = 1; i < count; i++)
                     {
                         writer.WriteLine(logLineArray[i]);
