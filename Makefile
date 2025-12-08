@@ -58,6 +58,8 @@ deploy-$(TARGET_NET10)$(SINGLE_SUFFIX):
 deploy-$(TARGET_NET10)$(AOT_SUFFIX):
 	-dotnet publish -c $(BUILD_CONFIG) -f $(TARGET_NET10) --self-contained \
 		-p:PublishDir=..\$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET10)$(AOT_SUFFIX) \
+		-p:OptimizationPreference=Speed \
+		-p:StripSymbols=true \
 		$(MAIN_PROJECT_FILE)
 	-$(RM) $(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET10)$(AOT_SUFFIX)\*.pdb \
 		$(ARTIFACTS_BASEDIR)\$(ARTIFACTS_SUBDIR_BASENAME)-$(TARGET_NET10)$(AOT_SUFFIX)\*.xml \
